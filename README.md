@@ -1,4 +1,5 @@
 *Behöver uppdateras*
+![Server Test](https://raw.githubusercontent.com/fte10kso/Camera/master/Camera/hejhej.gif)
 # Camera Server
 
 ## Klasser
