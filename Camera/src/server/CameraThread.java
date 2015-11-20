@@ -2,7 +2,6 @@ package server;
 
 import se.lth.cs.eda040.fakecamera.AxisM3006V;
 
-//TODO - Add Motiondetection 
 
 public class CameraThread extends Thread {
 	private Monitor monitor;
@@ -14,13 +13,20 @@ public class CameraThread extends Thread {
 		camera.init();
 		camera.connect();
 	}
-	
+
 	@Override
 	public void run() {
 		while (true) {
 			byte[] jpeg = new byte[AxisM3006V.IMAGE_BUFFER_SIZE];
-			int length =  camera.getJPEG(jpeg, 0);
-			monitor.addPackage(new ClientPackage(length, jpeg));
+			byte[] timestamp = new byte[8];
+			int length = camera.getJPEG(jpeg, 0);
+			camera.getTime(timestamp, 0);
+			boolean motionDetected = camera.motionDetected();
+			monitor.addImage(new ClientPackage(motionDetected, timestamp, length, jpeg));
+			
+			if(motionDetected) {
+				monitor.setMovieMode(true);
+			}
 		}
 	}
 }

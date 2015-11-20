@@ -1,33 +1,33 @@
 package server;
 
-//TODO - Add rest of package (1 byte type, 8 byte timestamp) --> modify header lenght 
-
 public class ClientPackage {
-	private byte[] clientPackage;
-	public static final int HEADR_LENGTH = 4;
+	private byte[] packageData;
+	private boolean motionDetected;
+	public static final int HEADER_LENGTH = 13;
+	public static final byte IMAGE_MESSAGE = 1;
+	public static final byte MOTION_MESSAGE = 0;
 
-	public ClientPackage(int length, byte[] jpeg) {
-
-		clientPackage = new byte[HEADR_LENGTH + length];
+	public ClientPackage(boolean motionDetected, byte[] timestamp, int length, byte[] jpeg) {
+		this.motionDetected = motionDetected;
+		packageData = new byte[HEADER_LENGTH + length];
+		packageData[0] = IMAGE_MESSAGE;
+		System.arraycopy(timestamp, 0, packageData, 1, 8);
 		addLength(length);
-
-		System.arraycopy(jpeg, 0, clientPackage, 4, length);
+		System.arraycopy(jpeg, 0, packageData, HEADER_LENGTH, length);
 	}
 
-	/**
-	 * Converts length as integer to bytes and adds to client package
-	 * 
-	 * @param length
-	 */
 	private void addLength(int length) {
-		clientPackage[3] = (byte) (length >> 8 * 3);
-		clientPackage[2] = (byte) (length >> 8 * 2);
-		clientPackage[1] = (byte) (length >> 8);
-		clientPackage[0] = (byte) length;
+		for (int i = 0; i < 4; i++) {
+			packageData[i + 9] = (byte) (length >> 8 * i);
+		}
+	}
+	
+	public boolean motionDetected() {
+		return motionDetected;
 	}
 
 	public byte[] toByteArray() {
-		return clientPackage;
+		return packageData;
 	}
 
 }

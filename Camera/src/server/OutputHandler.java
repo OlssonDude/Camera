@@ -17,8 +17,12 @@ public class OutputHandler extends Thread {
 		out = monitor.getOutputStream();
 		while (true) {
 			if (monitor.isConnected()) {
-				ClientPackage toSend = monitor.getNextPackage();
+				ClientPackage toSend = monitor.getImage();
 				try {
+					if (toSend.motionDetected() && !monitor.isMotionMessageSent()) {
+						out.write(ClientPackage.MOTION_MESSAGE);
+						monitor.setMotionMessageSent(true);
+					}
 					out.write(toSend.toByteArray());
 				} catch (IOException e) {
 					monitor.disconnect();
