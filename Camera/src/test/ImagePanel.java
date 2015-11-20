@@ -1,19 +1,14 @@
 package test;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import se.lth.cs.eda040.fakecamera.AxisM3006V;
+/*
+ * Reuse in client GUI
+ */
 
 public class ImagePanel extends JPanel {
 	ImageIcon icon;
