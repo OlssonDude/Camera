@@ -25,6 +25,7 @@ public class ImageBuffer {
 	
 	public synchronized void addImage(Image image) {
 		buffer.add(image);
+		notifyAll();
 	}
 
 }
