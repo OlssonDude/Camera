@@ -16,5 +16,13 @@ public class Image implements Comparable<Image> {
 	public int compareTo(Image o) {
 		return (int) (timestamp - o.timestamp);
 	}
+	
+	public int getCameraID() {
+		return cameraID;
+	}
+	
+	public byte[] getImage() {
+		return jpeg;
+	}
 
 }
