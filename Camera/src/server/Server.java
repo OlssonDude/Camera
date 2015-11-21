@@ -20,8 +20,10 @@ public class Server extends Thread {
 	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
+			System.out.println("Server " + port + " started");
 			while (true) {
 				Socket client = serverSocket.accept();
+				System.out.println("Client connected to " + port);
 				monitor.setSocket(client);
 				monitor.waitForDisconnect();
 			}
@@ -29,10 +31,5 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
 
-	}
-
-	public static void main(String[] args) {
-		new Server(8888).start();
-		new Server(8890).start();
 	}
 }

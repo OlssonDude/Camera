@@ -5,13 +5,13 @@ import javax.swing.SwingUtilities;
 import client.GUI.ImagePanel;
 
 public class ImageUpdater extends Thread {
-	private ImagePanel leftCamera;
-	private ImagePanel rightCamera;
+	private ImagePanel cameraLeft;
+	private ImagePanel cameraRight;
 	private ImageBuffer imgBuffer;
 	
-	public ImageUpdater(ImagePanel leftCamera, ImagePanel rightCamera, ImageBuffer imgBuffer) {
-		this.leftCamera = leftCamera;
-		this.rightCamera = rightCamera;
+	public ImageUpdater(ImagePanel cameraLeft, ImagePanel cameraRight, ImageBuffer imgBuffer) {
+		this.cameraLeft = cameraLeft;
+		this.cameraRight = cameraRight;
 		this.imgBuffer = imgBuffer;
 	}
 
@@ -32,9 +32,9 @@ public class ImageUpdater extends Thread {
 		@Override
 		public void run() {
 			if(img.getCameraID() == 0) {
-				leftCamera.refresh(img.getImage());
+				cameraLeft.refresh(img.getImage());
 			} else {
-				rightCamera.refresh(img.getImage());
+				cameraRight.refresh(img.getImage());
 			}
 		}
 

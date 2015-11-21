@@ -11,10 +11,11 @@ public class InputHandler extends Thread {
 	private ImageBuffer imgBuffer;
 	private MessageBuffer msgBuffer;
 
-	public InputHandler(int cameraID, ImageBuffer imgBuffer, MessageBuffer msgBuffer) {
+	public InputHandler(int cameraID, ImageBuffer imgBuffer, MessageBuffer msgBuffer, InputStream in) {
 		this.cameraID = cameraID;
 		this.imgBuffer = imgBuffer;
 		this.msgBuffer = msgBuffer;
+		this.in = in;
 	}
 
 	@Override
@@ -42,6 +43,7 @@ public class InputHandler extends Thread {
 	}
 
 	private void handleMotion() {
+		System.out.println("Client received motion message");
 		// TODO Place message to other camera in MessageBuffer
 	}
 
@@ -49,7 +51,7 @@ public class InputHandler extends Thread {
 		long timestamp = readTimestamp();
 		int length = readLength();
 		byte[] jpeg = readImage(length);
-		
+
 		imgBuffer.addImage(new Image(cameraID, timestamp, jpeg));
 	}
 
@@ -100,5 +102,4 @@ public class InputHandler extends Thread {
 		return (length[3] << (8 * 3)) | (length[2] & 0xFF) << (8 * 2) | (length[1] & 0xFF) << (8 * 1)
 				| (length[0] & 0xFF);
 	}
-
 }

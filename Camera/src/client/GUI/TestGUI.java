@@ -6,11 +6,11 @@ import se.lth.cs.eda040.fakecamera.AxisM3006V;
 
 public class TestGUI extends JFrame {
 
-	public TestGUI(ImagePanel cameraLeft, ImagePanel cameraRigth) {
+	public TestGUI(ImagePanel cameraLeft, ImagePanel cameraRight) {
 
 		setLayout(new GridLayout(1, 2, 10, 0));
 		add(cameraLeft);
-		add(cameraRigth);
+		add(cameraRight);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(AxisM3006V.IMAGE_WIDTH * 2, AxisM3006V.IMAGE_HEIGHT);
