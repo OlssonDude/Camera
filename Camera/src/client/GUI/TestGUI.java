@@ -1,4 +1,4 @@
-package test;
+package client.GUI;
 
 import java.awt.GridLayout;
 import javax.swing.JFrame;
