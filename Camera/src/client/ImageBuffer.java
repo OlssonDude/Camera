@@ -2,6 +2,8 @@ package client;
 
 import java.util.PriorityQueue;
 
+// TODO - Add functionality for checking synchronized-mode
+
 public class ImageBuffer {
 	PriorityQueue<Image> buffer;
 	
