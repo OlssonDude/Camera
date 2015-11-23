@@ -24,8 +24,8 @@ public class MainTest {
 		Socket right = new Socket("localhost", 8890);
 		ImageBuffer imgBuffer = new ImageBuffer();
 		MessageBuffer msgBuffer = new MessageBuffer();
-		new InputHandler(0, imgBuffer, msgBuffer, left.getInputStream()).start();
-		new InputHandler(1, imgBuffer, msgBuffer, right.getInputStream()).start();
+		new InputHandler(0,1, imgBuffer, msgBuffer, left.getInputStream()).start();
+		new InputHandler(1,0, imgBuffer, msgBuffer, right.getInputStream()).start();
 		new ImageUpdater(cameraLeft, cameraRight, imgBuffer).start();
 	}
 
