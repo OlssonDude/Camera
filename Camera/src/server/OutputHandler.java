@@ -13,13 +13,12 @@ public class OutputHandler extends Thread {
 
 	@Override
 	public void run() {
-		monitor.waitForConnection();
 		out = monitor.getOutputStream();
 		while (true) {
 			if (monitor.isConnected()) {
 				ClientPackage toSend = monitor.getImage();
 				try {
-					if (toSend.motionDetected() && !monitor.isMotionMessageSent()) {
+					if (toSend.motionDetected() && !monitor.MotionMessageSent()) {
 						out.write(ClientPackage.MOTION_MESSAGE);
 						monitor.setMotionMessageSent(true);
 					}
@@ -28,7 +27,6 @@ public class OutputHandler extends Thread {
 					monitor.disconnect();
 				}
 			} else {
-				monitor.waitForConnection();
 				out = monitor.getOutputStream();
 			}
 		}

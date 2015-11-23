@@ -28,15 +28,15 @@ public class Monitor {
 		}
 	}
 
-	public synchronized void waitForConnection() {
-		while (!isConnected()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public synchronized void waitForConnection() {
+//		while (!isConnected()) {
+//			try {
+//				wait();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 	public synchronized boolean isConnected() {
 		return client != null;
@@ -59,12 +59,36 @@ public class Monitor {
 	}
 
 	public synchronized OutputStream getOutputStream() {
-		if (isConnected()) {
+		while(!isConnected()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 			try {
 				return client.getOutputStream();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		return null;
+	}
+	
+	public synchronized InputStream getInputStream() {
+		while(!isConnected()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			return client.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -98,30 +122,12 @@ public class Monitor {
 		notifyAll();
 	}
 
-	public synchronized boolean isMotionMessageSent() {
+	public synchronized boolean MotionMessageSent() {
 		return motionMessageSent;
 	}
 
 	public synchronized void setMotionMessageSent(boolean status) {
 		motionMessageSent = status;
-	}
-
-	public synchronized InputStream getInputStream() {
-		while(!isConnected()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		try {
-			return client.getInputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 }
