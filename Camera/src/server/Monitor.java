@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -103,6 +104,24 @@ public class Monitor {
 
 	public synchronized void setMotionMessageSent(boolean status) {
 		motionMessageSent = status;
+	}
+
+	public synchronized InputStream getInputStream() {
+		while(!isConnected()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			return client.getInputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
