@@ -18,7 +18,7 @@ public class MessageHandler extends Thread {
 	public void run() {
 		while (true) {
 			ServerMessage message = buffer.getMessage();
-			if (message.getId() == 1) {
+			if (message.getId() == 0) {
 				try {
 					out0.write(message.getMessage());
 				} catch (IOException e) {
