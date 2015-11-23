@@ -22,10 +22,13 @@ public class InputHandler extends Thread {
 					byte message = (byte) in.read();
 					if (message == ServerMessage.DISCONNECT_MESSAGE) {
 						monitor.disconnect();
+						System.out.println("Disconenct Recieved"); // TODO - Replace by logger
 					} else if (message == ServerMessage.IDLE_MESSAGE) {
 						monitor.setMovieMode(false);
+						System.out.println("Idle Recieved"); // TODO - Replace by logger
 					} else if (message == ServerMessage.MOVIE_MESSAGE) {
 						monitor.setMovieMode(true);
+						System.out.println("Movie Recieved"); // TODO - Replace by logger
 					}
 				} catch (IOException e) {
 					monitor.disconnect();
@@ -35,5 +38,4 @@ public class InputHandler extends Thread {
 			}
 		}
 	}
-
 }
