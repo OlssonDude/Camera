@@ -1,21 +1,41 @@
 package client.GUI;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import se.lth.cs.eda040.fakecamera.AxisM3006V;
 
 public class TestGUI extends JFrame {
 
 	public TestGUI(ImagePanel cameraLeft, ImagePanel cameraRight) {
 
-		setLayout(new GridLayout(1, 2, 10, 0));
-		add(cameraLeft);
-		add(cameraRight);
-
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(5, 5, 5, 5);
+		addComponent(c, cameraLeft, 0, 0, 1, 3, GridBagConstraints.NONE, 0, 0);
+		addComponent(c, cameraRight, 1, 0, 1, 3, GridBagConstraints.NONE, 0, 0);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(AxisM3006V.IMAGE_WIDTH * 2, AxisM3006V.IMAGE_HEIGHT);
+		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+
+	private void addComponent(GridBagConstraints c, JComponent component, int x, int y) {
+		addComponent(c, component, x, y, 1, 1, GridBagConstraints.NONE, 0, 0);
+	}
+
+	private void addComponent(GridBagConstraints c, JComponent component, int x, int y, int width, int height, int fill,
+			double wx, double wy) {
+		c.gridx = x;
+		c.gridy = y;
+		c.gridwidth = width;
+		c.gridheight = height;
+		c.fill = fill;
+		c.weightx = wx;
+		c.weighty = wy;
+		add(component, c);
 	}
 
 }

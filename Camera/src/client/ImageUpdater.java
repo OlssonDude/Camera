@@ -32,9 +32,9 @@ public class ImageUpdater extends Thread {
 		@Override
 		public void run() {
 			if(img.getCameraID() == 0) {
-				cameraLeft.refresh(img.getImage());
+				cameraLeft.refresh(img);
 			} else {
-				cameraRight.refresh(img.getImage());
+				cameraRight.refresh(img);
 			}
 		}
 
