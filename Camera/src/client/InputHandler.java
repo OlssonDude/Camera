@@ -3,21 +3,30 @@ package client;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.swing.SwingUtilities;
+
+import client.GUI.ImagePanel;
+
 public class InputHandler extends Thread {
-	public static final byte IMAGE_MESSAGE = 1;
 	public static final byte MOTION_MESSAGE = 0;
+	public static final byte IMAGE_MESSAGE = 1;
 	private int cameraID;
 	private int otherCameraID;
 	private InputStream in;
 	private ImageBuffer imgBuffer;
 	private MessageBuffer msgBuffer;
+	private ImagePanel thisCameraDisplay;
+	private ImagePanel otherCameraDisplay;
 
-	public InputHandler(int cameraID, int otherCameraID, ImageBuffer imgBuffer, MessageBuffer msgBuffer, InputStream in) {
+	public InputHandler(int cameraID, int otherCameraID, ImageBuffer imgBuffer, MessageBuffer msgBuffer, InputStream in,
+			ImagePanel thisCameraDisplay, ImagePanel otherCameraDisplay) {
 		this.cameraID = cameraID;
 		this.otherCameraID = otherCameraID;
 		this.imgBuffer = imgBuffer;
 		this.msgBuffer = msgBuffer;
 		this.in = in;
+		this.thisCameraDisplay = thisCameraDisplay;
+		this.otherCameraDisplay = otherCameraDisplay;
 	}
 
 	@Override
@@ -26,10 +35,10 @@ public class InputHandler extends Thread {
 			byte msgType = readType();
 			if (msgType == IMAGE_MESSAGE) {
 				handleImage();
-			} else if (msgType == MOTION_MESSAGE) {
+			} else if(msgType == MOTION_MESSAGE){
 				handleMotion();
 			} else {
-				// TODO ? Unknown / end of stream ?
+				// TODO ? Unknown message/end of stream
 			}
 		}
 	}
@@ -40,20 +49,28 @@ public class InputHandler extends Thread {
 			type = (byte) in.read();
 		} catch (IOException e) {
 			e.printStackTrace();
+			// TODO - Handle connection lost
 		}
 		return type;
 	}
 
 	private void handleMotion() {
-		System.out.println("Client received motion message"); //TODO - remove when logger implemented
 		msgBuffer.addMessage(new ServerMessage(otherCameraID, ServerMessage.MOVIE_MESSAGE));
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				thisCameraDisplay.setMovieMode(true);
+				otherCameraDisplay.setMovieMode(false);
+			}
+		});
+
 	}
 
 	private void handleImage() {
 		long timestamp = readTimestamp();
 		int length = readLength();
 		byte[] jpeg = readImage(length);
-		int delay = (int)(System.currentTimeMillis() - timestamp);
+		int delay = (int) (System.currentTimeMillis() - timestamp);
 		imgBuffer.addImage(new CameraImage(cameraID, timestamp, jpeg, delay));
 	}
 

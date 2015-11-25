@@ -28,15 +28,15 @@ public class Monitor {
 		}
 	}
 
-//	public synchronized void waitForConnection() {
-//		while (!isConnected()) {
-//			try {
-//				wait();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	// public synchronized void waitForConnection() {
+	// while (!isConnected()) {
+	// try {
+	// wait();
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
 
 	public synchronized boolean isConnected() {
 		return client != null;
@@ -48,8 +48,8 @@ public class Monitor {
 		} catch (Exception e) {
 		}
 		client = null;
-		motionMessageSent = false;
 		movie = false;
+		motionMessageSent = false;
 		notifyAll();
 	}
 
@@ -59,7 +59,7 @@ public class Monitor {
 	}
 
 	public synchronized OutputStream getOutputStream() {
-		while(!isConnected()) {
+		while (!isConnected()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -67,16 +67,16 @@ public class Monitor {
 				e.printStackTrace();
 			}
 		}
-			try {
-				return client.getOutputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			return client.getOutputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
+
 	public synchronized InputStream getInputStream() {
-		while(!isConnected()) {
+		while (!isConnected()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -116,8 +116,9 @@ public class Monitor {
 	}
 
 	public synchronized void setMovieMode(boolean movie) {
-		if (!movie)
+		if (!movie) {
 			motionMessageSent = false;
+		}
 		this.movie = movie;
 		notifyAll();
 	}

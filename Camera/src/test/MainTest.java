@@ -19,18 +19,17 @@ public class MainTest {
 		new Server(8888).start();
 		new Server(8890).start();
 
-		ImagePanel cameraLeft = new ImagePanel();
-		ImagePanel cameraRight = new ImagePanel();
-		new TestGUI(cameraLeft, cameraRight);
-
 		Socket left = new Socket("localhost", 8888);
 		Socket right = new Socket("localhost", 8890);
 		ImageBuffer imgBuffer = new ImageBuffer();
 		MessageBuffer msgBuffer = new MessageBuffer();
-		new InputHandler(LEFT, RIGHT, imgBuffer, msgBuffer, left.getInputStream()).start();
-		new InputHandler(RIGHT, LEFT, imgBuffer, msgBuffer, right.getInputStream()).start();
+		ImagePanel cameraLeft = new ImagePanel(LEFT, msgBuffer);
+		ImagePanel cameraRight = new ImagePanel(RIGHT, msgBuffer);
+		new TestGUI(cameraLeft, cameraRight);
+		new InputHandler(LEFT, RIGHT, imgBuffer, msgBuffer, left.getInputStream(), cameraLeft, cameraRight).start();
+		new InputHandler(RIGHT, LEFT, imgBuffer, msgBuffer, right.getInputStream(), cameraRight, cameraLeft).start();
 		new ImageUpdater(cameraLeft, cameraRight, imgBuffer).start();
-		new MessageHandler(msgBuffer, left.getOutputStream(), right.getOutputStream());
+		new MessageHandler(msgBuffer, left.getOutputStream(), right.getOutputStream()).start();
 	}
 
 }

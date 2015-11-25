@@ -4,8 +4,8 @@ public class ClientPackage {
 	private byte[] packageData;
 	private boolean motionDetected;
 	public static final int HEADER_LENGTH = 13;
-	public static final byte IMAGE_MESSAGE = 1;
 	public static final byte MOTION_MESSAGE = 0;
+	public static final byte IMAGE_MESSAGE = 1;
 
 	public ClientPackage(boolean motionDetected, byte[] timestamp, int length, byte[] jpeg) {
 		this.motionDetected = motionDetected;

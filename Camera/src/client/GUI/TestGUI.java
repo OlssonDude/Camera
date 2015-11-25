@@ -3,8 +3,6 @@ package client.GUI;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class TestGUI extends JFrame {
@@ -19,6 +17,7 @@ public class TestGUI extends JFrame {
 		add(cameraRight, c);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

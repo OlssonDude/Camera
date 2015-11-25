@@ -37,6 +37,5 @@ public class ImageUpdater extends Thread {
 				cameraRight.refresh(img);
 			}
 		}
-
 	}
 }

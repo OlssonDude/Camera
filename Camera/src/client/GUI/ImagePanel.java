@@ -8,11 +8,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import client.CameraImage;
+import client.MessageBuffer;
+import client.ServerMessage;
 import se.lth.cs.eda040.fakecamera.AxisM3006V;
 
 /*
@@ -20,13 +25,18 @@ import se.lth.cs.eda040.fakecamera.AxisM3006V;
  */
 
 public class ImagePanel extends JPanel {
-	ImageIcon icon;
+	private int cameraID;
+	private ImageIcon icon;
 	private JLabel mode;
 	private JLabel camera;
 	private JLabel delay;
 	private JPanel cameraPanel;
+	private boolean movie;
+	private MessageBuffer msgBuffer;
 
-	public ImagePanel() {
+	public ImagePanel(int cameraID, MessageBuffer msgBuffer) {
+		this.cameraID = cameraID;
+		this.msgBuffer = msgBuffer;
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
@@ -44,6 +54,7 @@ public class ImagePanel extends JPanel {
 		c.gridy = 1;
 		camera.setPreferredSize(new Dimension(AxisM3006V.IMAGE_WIDTH, AxisM3006V.IMAGE_HEIGHT));
 		cameraPanel.setBorder(new MovieBorder(Color.GREEN, 2));
+		cameraPanel.addMouseListener(new IdleListener());
 		add(cameraPanel, c);
 
 		delay = new JLabel("Delay: 20ms");
@@ -60,18 +71,20 @@ public class ImagePanel extends JPanel {
 		delay.setText("Delay: " + data.getDelay() + "ms");
 	}
 	
-	public void setMovieMode(boolean movie, boolean trigger) {
-		if(movie) {
-			cameraPanel.setBorder(new MovieBorder(Color.RED, 2));
-			if(trigger) {
-				mode.setText("Movie (TRIGGER)");
-			} else {
-				mode.setText("Movie");
-			}
+	public void setMovieMode(boolean trigger) {
+		movie = true;
+		cameraPanel.setBorder(new MovieBorder(Color.RED, 2));
+		if (trigger) {
+			mode.setText("Movie (TRIGGER)");
 		} else {
-			cameraPanel.setBorder(new MovieBorder(Color.GREEN, 2));
-			mode.setText("Idle");
+			mode.setText("Movie");
 		}
+	}
+	public void setIdleMode() {
+		movie = false;
+		cameraPanel.setBorder(new MovieBorder(Color.GREEN, 2));
+		mode.setText("Idle");
+		
 	}
 
 	private class MovieBorder extends LineBorder {
@@ -86,6 +99,17 @@ public class ImagePanel extends JPanel {
 			return insets;
 		}
 
+	}
+	
+	private class IdleListener extends MouseAdapter {
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(movie) {
+				msgBuffer.addMessage(new ServerMessage(cameraID, ServerMessage.IDLE_MESSAGE));
+				setIdleMode();
+			}
+		}
 	}
 
 }
