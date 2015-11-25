@@ -53,8 +53,8 @@ public class InputHandler extends Thread {
 		long timestamp = readTimestamp();
 		int length = readLength();
 		byte[] jpeg = readImage(length);
-
-		imgBuffer.addImage(new CameraImage(cameraID, timestamp, jpeg));
+		int delay = (int)(System.currentTimeMillis() - timestamp);
+		imgBuffer.addImage(new CameraImage(cameraID, timestamp, jpeg, delay));
 	}
 
 	private byte[] readImage(int length) {
