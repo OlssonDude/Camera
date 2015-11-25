@@ -1,11 +1,11 @@
 package client;
 
-public class Image implements Comparable<Image> {
+public class CameraImage implements Comparable<CameraImage> {
 	private int cameraID;
 	private byte[] jpeg;
 	private long timestamp;
 
-	public Image(int cameraID, long timestamp, byte[] jpeg) {
+	public CameraImage(int cameraID, long timestamp, byte[] jpeg) {
 		super();
 		this.cameraID = cameraID;
 		this.jpeg = jpeg;
@@ -13,7 +13,7 @@ public class Image implements Comparable<Image> {
 	}
 
 	@Override
-	public int compareTo(Image o) {
+	public int compareTo(CameraImage o) {
 		return (int) (timestamp - o.timestamp);
 	}
 	
@@ -24,5 +24,4 @@ public class Image implements Comparable<Image> {
 	public byte[] getImage() {
 		return jpeg;
 	}
-
 }

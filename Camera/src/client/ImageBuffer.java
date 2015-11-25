@@ -5,13 +5,13 @@ import java.util.PriorityQueue;
 // TODO - Add functionality for checking synchronized-mode
 
 public class ImageBuffer {
-	PriorityQueue<Image> buffer;
+	PriorityQueue<CameraImage> buffer;
 	
 	public ImageBuffer() {
-		buffer = new PriorityQueue<Image>();
+		buffer = new PriorityQueue<CameraImage>();
 	}
 	
-	public synchronized Image getNextImage() {
+	public synchronized CameraImage getNextImage() {
 		while(buffer.isEmpty()) {
 			try {
 				wait();
@@ -23,7 +23,7 @@ public class ImageBuffer {
 		return buffer.poll();
 	}
 	
-	public synchronized void addImage(Image image) {
+	public synchronized void addImage(CameraImage image) {
 		buffer.add(image);
 		notifyAll();
 	}

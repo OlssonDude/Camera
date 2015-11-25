@@ -23,9 +23,9 @@ public class ImageUpdater extends Thread {
 	}
 
 	private class Updater implements Runnable {
-		private Image img;
+		private CameraImage img;
 
-		public Updater(Image img) {
+		public Updater(CameraImage img) {
 			this.img = img;
 		}
 

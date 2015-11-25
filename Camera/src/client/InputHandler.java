@@ -54,7 +54,7 @@ public class InputHandler extends Thread {
 		int length = readLength();
 		byte[] jpeg = readImage(length);
 
-		imgBuffer.addImage(new Image(cameraID, timestamp, jpeg));
+		imgBuffer.addImage(new CameraImage(cameraID, timestamp, jpeg));
 	}
 
 	private byte[] readImage(int length) {
