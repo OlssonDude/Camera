@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import client.GUI.ConnectionHandling;
 import client.GUI.DebugFrame;
 import client.GUI.ImagePanel;
-import client.GUI.TestGUI;
+import client.GUI.GUI;
 
 public class Client {
 	private static int LEFT = 0;
@@ -19,7 +19,7 @@ public class Client {
 	private ImagePanel cameraRight;
 	private ConnectionHandling leftConnectionHandling;
 	private ConnectionHandling rightConnectionHandling;
-	private TestGUI gui;
+	private GUI gui;
 
 	public Client() throws Exception {
 		imgBuffer = new ImageBuffer();
@@ -36,7 +36,7 @@ public class Client {
 				cameraRight = new ImagePanel(rightMsgBuffer);
 				leftConnectionHandling = new ConnectionHandling(leftConnectionMonitor, cameraLeft);
 				rightConnectionHandling = new ConnectionHandling(rightConnectionMonitor, cameraRight);
-				gui = new TestGUI(cameraLeft, cameraRight, leftConnectionHandling, rightConnectionHandling);
+				gui = new GUI(cameraLeft, cameraRight, leftConnectionHandling, rightConnectionHandling);
 				new DebugFrame(imgBuffer, cameraLeft, cameraRight, leftMsgBuffer, rightMsgBuffer);
 
 			}

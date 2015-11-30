@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
-public class TestGUI extends JFrame {
+public class GUI extends JFrame {
+	
+	//FIXME Dispaly current synch mode in GUI
 
-	public TestGUI(ImagePanel cameraLeft, ImagePanel cameraRight, ConnectionHandling leftConnection, ConnectionHandling rightConnection) {
+	public GUI(ImagePanel cameraLeft, ImagePanel cameraRight, ConnectionHandling leftConnection,
+			ConnectionHandling rightConnection) {
 		super("Argus Camera Surveillance");
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
