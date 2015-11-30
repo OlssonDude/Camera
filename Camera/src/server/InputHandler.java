@@ -20,16 +20,36 @@ public class InputHandler extends Thread {
 			if (monitor.isConnected()) {
 				try {
 					byte message = (byte) in.read();
-					if (message == ServerMessage.DISCONNECT_MESSAGE) {
+					switch (message) {
+					case ServerMessage.DISCONNECT_MESSAGE:
 						monitor.disconnect();
-						System.out.println("Disconenct Recieved"); // TODO - Replace by logger
-					} else if (message == ServerMessage.IDLE_MESSAGE) {
+						System.out.println("Disconenct Recieved");
+						break;
+					case ServerMessage.IDLE_MESSAGE:
 						monitor.setMovieMode(false);
-						System.out.println("Idle Recieved"); // TODO - Replace by logger
-					} else if (message == ServerMessage.MOVIE_MESSAGE) {
+						System.out.println("Idle Recieved");
+						break;
+					case ServerMessage.MOVIE_MESSAGE:
 						monitor.setMovieMode(true);
-						System.out.println("Movie Recieved"); // TODO - Replace by logger
+						System.out.println("Movie Recieved");
+						break;
+					case ServerMessage.FORCE_IDLE:
+						monitor.forceIdle();
+						System.out.println("Force Idle Recieved");
+						break;
+					case ServerMessage.FORCE_MOVIE:
+						monitor.forceMovie();
+						System.out.println("Force Movie Recieved");
+						break;
+					case ServerMessage.FORCE_NONE:
+						monitor.forceNone();
+						System.out.println("Force None Recieved");
+						break;
+					case -1:
+							monitor.disconnect();
+						break;
 					}
+
 				} catch (IOException e) {
 					monitor.disconnect();
 				}

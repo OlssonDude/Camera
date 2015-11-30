@@ -11,6 +11,8 @@ public class Monitor {
 	private ClientPackage image;
 	private boolean movie;
 	private boolean motionMessageSent;
+	private boolean forceMovie;
+	private boolean forceIdle;
 	private long imageGetTime;
 
 	public synchronized void setSocket(Socket client) {
@@ -28,29 +30,22 @@ public class Monitor {
 		}
 	}
 
-	// public synchronized void waitForConnection() {
-	// while (!isConnected()) {
-	// try {
-	// wait();
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-
 	public synchronized boolean isConnected() {
 		return client != null;
 	}
 
 	public synchronized void disconnect() {
-		try {
-			client.close();
-		} catch (Exception e) {
+		if (isConnected()) {
+			try {
+				client.getOutputStream().flush();
+				client.close();
+			} catch (Exception e) {
+			}
+			client = null;
+			movie = false;
+			motionMessageSent = false;
+			notifyAll();
 		}
-		client = null;
-		movie = false;
-		motionMessageSent = false;
-		notifyAll();
 	}
 
 	public synchronized void addImage(ClientPackage clientPackage) {
@@ -63,7 +58,6 @@ public class Monitor {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -71,8 +65,9 @@ public class Monitor {
 			return client.getOutputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
+			disconnect();
 		}
-		return null;
+		return getOutputStream();
 	}
 
 	public synchronized InputStream getInputStream() {
@@ -80,27 +75,40 @@ public class Monitor {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		try {
 			return client.getInputStream();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			disconnect();
 			e.printStackTrace();
 		}
-		return null;
+		return getInputStream();
+	}
+
+	private boolean isIdleWait(long toWait) {
+		if (forceMovie) {
+			return false;
+		}
+
+		if (forceIdle || !movie) {
+			return toWait > 0;
+		}
+
+		return false;
 	}
 
 	public synchronized ClientPackage getImage() {
-		long toWait;
-		while (!movie && (toWait = imageGetTime - System.currentTimeMillis()) > 0) {
+		long toWait = imageGetTime - System.currentTimeMillis();
+		while (isIdleWait(toWait)) { // !forceMovie && (((forceIdle || !movie)
+										// && toWait > 0))
 			try {
 				wait(toWait);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			toWait = imageGetTime - System.currentTimeMillis();
 		}
 		while (image == null) {
 			try {
@@ -129,6 +137,21 @@ public class Monitor {
 
 	public synchronized void setMotionMessageSent(boolean status) {
 		motionMessageSent = status;
+	}
+
+	public synchronized void forceMovie() {
+		forceIdle = false;
+		forceMovie = true;
+	}
+
+	public synchronized void forceIdle() {
+		forceMovie = false;
+		forceIdle = true;
+	}
+
+	public synchronized void forceNone() {
+		forceMovie = false;
+		forceIdle = false;
 	}
 
 }

@@ -5,33 +5,34 @@ import java.io.OutputStream;
 
 public class MessageHandler extends Thread {
 	private MessageBuffer buffer;
-	private OutputStream out0;
-	private OutputStream out1;
+	private OutputStream out;
+	private ConnectionMonitor server;
 
-	public MessageHandler(MessageBuffer buffer, OutputStream out0, OutputStream out1) {
+	public MessageHandler(MessageBuffer buffer, ConnectionMonitor server) {
 		this.buffer = buffer;
-		this.out0 = out0;
-		this.out1 = out1;
+		this.server = server;
 	}
 
 	@Override
 	public void run() {
+		out = server.getOutputStream();
+		buffer.clear();
 		while (true) {
-			ServerMessage message = buffer.getMessage();
-			if (message.getId() == 0) {
+			if (server.isConnected()) {
 				try {
-					out0.write(message.getMessage());
+					ServerMessage msg = buffer.getMessage();
+					if (msg == null) {
+						out = server.getOutputStream();
+						buffer.clear();
+					} else {
+						out.write(msg.toByte());
+					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("MessageHandler Disconnected"); // TODO print
 				}
 			} else {
-				try {
-					out1.write(message.getMessage());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				out = server.getOutputStream();
+				buffer.clear();
 			}
 		}
 	}

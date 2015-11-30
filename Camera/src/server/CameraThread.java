@@ -2,7 +2,6 @@ package server;
 
 import se.lth.cs.eda040.fakecamera.AxisM3006V;
 
-
 public class CameraThread extends Thread {
 	private Monitor monitor;
 	private AxisM3006V camera;
@@ -23,8 +22,8 @@ public class CameraThread extends Thread {
 			camera.getTime(timestamp, 0);
 			boolean motionDetected = camera.motionDetected();
 			monitor.addImage(new ClientPackage(motionDetected, timestamp, length, jpeg));
-			
-			if(motionDetected) {
+
+			if (motionDetected) {
 				monitor.setMovieMode(true);
 			}
 		}

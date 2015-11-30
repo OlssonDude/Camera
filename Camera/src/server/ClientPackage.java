@@ -21,7 +21,7 @@ public class ClientPackage {
 			packageData[i + 9] = (byte) (length >> 8 * i);
 		}
 	}
-	
+
 	public boolean motionDetected() {
 		return motionDetected;
 	}

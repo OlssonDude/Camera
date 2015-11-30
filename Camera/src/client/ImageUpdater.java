@@ -8,7 +8,7 @@ public class ImageUpdater extends Thread {
 	private ImagePanel cameraLeft;
 	private ImagePanel cameraRight;
 	private ImageBuffer imgBuffer;
-	
+
 	public ImageUpdater(ImagePanel cameraLeft, ImagePanel cameraRight, ImageBuffer imgBuffer) {
 		this.cameraLeft = cameraLeft;
 		this.cameraRight = cameraRight;
@@ -17,7 +17,7 @@ public class ImageUpdater extends Thread {
 
 	@Override
 	public void run() {
-		while(true) {
+		while (true) {
 			SwingUtilities.invokeLater(new Updater(imgBuffer.getNextImage()));
 		}
 	}
@@ -31,7 +31,7 @@ public class ImageUpdater extends Thread {
 
 		@Override
 		public void run() {
-			if(img.getCameraID() == 0) {
+			if (img.getCameraID() == 0) {
 				cameraLeft.refresh(img);
 			} else {
 				cameraRight.refresh(img);

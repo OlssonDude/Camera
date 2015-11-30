@@ -5,25 +5,38 @@ import java.util.Queue;
 
 public class MessageBuffer {
 	private Queue<ServerMessage> buffer;
+	private boolean disconnected;
 
 	public MessageBuffer() {
 		buffer = new ArrayDeque<ServerMessage>();
 	}
-	
+
 	public synchronized void addMessage(ServerMessage message) {
 		buffer.offer(message);
 		notifyAll();
 	}
-	
+
 	public synchronized ServerMessage getMessage() {
-		while(buffer.isEmpty()) {
+		while (buffer.isEmpty() && !disconnected) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		}
+		if (disconnected) {
+			disconnected = false;
+			return null;
 		}
 		return buffer.poll();
 	}
+
+	public synchronized void clear() {
+		buffer.clear();
+	}
+
+	public synchronized void setDisconnected(boolean status) {
+		disconnected = status;
+		notifyAll();
+	}
+
 }

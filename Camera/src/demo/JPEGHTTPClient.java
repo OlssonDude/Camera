@@ -57,6 +57,7 @@ class ButtonHandler implements ActionListener {
 		this.gui = gui;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent evt) {
 		gui.refreshImage();
 	}

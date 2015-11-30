@@ -17,11 +17,12 @@ public class Server extends Thread {
 		new OutputHandler(monitor).start();
 	}
 
+	@Override
 	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("Server " + port + " started");
 			while (true) {
+				System.out.println("Server " + port + " waiting for clients");
 				Socket client = serverSocket.accept();
 				System.out.println("Client connected to " + port);
 				monitor.setSocket(client);

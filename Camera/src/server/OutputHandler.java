@@ -24,7 +24,7 @@ public class OutputHandler extends Thread {
 					}
 					out.write(toSend.toByteArray());
 				} catch (IOException e) {
-					monitor.disconnect();
+						monitor.disconnect();
 				}
 			} else {
 				out = monitor.getOutputStream();
