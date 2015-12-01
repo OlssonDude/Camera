@@ -2,16 +2,19 @@ package client;
 
 import javax.swing.SwingUtilities;
 
+import client.GUI.GUI;
 import client.GUI.ImagePanel;
 
 public class ImageUpdater extends Thread {
 	private ImagePanel cameraLeft;
 	private ImagePanel cameraRight;
+	private GUI gui;
 	private ImageBuffer imgBuffer;
 
-	public ImageUpdater(ImagePanel cameraLeft, ImagePanel cameraRight, ImageBuffer imgBuffer) {
+	public ImageUpdater(ImagePanel cameraLeft, ImagePanel cameraRight, GUI gui, ImageBuffer imgBuffer) {
 		this.cameraLeft = cameraLeft;
 		this.cameraRight = cameraRight;
+		this.gui = gui;
 		this.imgBuffer = imgBuffer;
 	}
 
@@ -31,11 +34,12 @@ public class ImageUpdater extends Thread {
 
 		@Override
 		public void run() {
-			if (img.getCameraID() == 0) {
+			if (img.getCameraID() == Client.LEFT_CAMERA) {
 				cameraLeft.refresh(img);
 			} else {
 				cameraRight.refresh(img);
 			}
+			gui.setSynchMode(img.isSynchMode());
 		}
 	}
 }

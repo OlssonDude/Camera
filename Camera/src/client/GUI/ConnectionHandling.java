@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -33,6 +32,7 @@ public class ConnectionHandling extends JPanel {
 		disconnect = new JButton("Disconnect");
 		styleButton(connect, new Color(90, 230, 90));
 		styleButton(disconnect, new Color(230, 90, 90));
+		disconnect.setEnabled(false);
 		connect.setPreferredSize(disconnect.getPreferredSize());
 		disconnect.addActionListener(new DisconnectListener());
 		connect.addActionListener(new ConnctListener());
@@ -67,6 +67,7 @@ public class ConnectionHandling extends JPanel {
 						cameraDisplay.setConnected(connected);
 						cameraDisplay.setIdleMode();
 						connect.setEnabled(false);
+						disconnect.setEnabled(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Could not connect to " + host + " at port " + port,
 								"Unable to connect", JOptionPane.PLAIN_MESSAGE);
@@ -87,6 +88,7 @@ public class ConnectionHandling extends JPanel {
 			cameraDisplay.setConnected(false);
 			cameraDisplay.setNoCameraConnected();
 			connect.setEnabled(true);
+			disconnect.setEnabled(false);
 		}
 
 	}

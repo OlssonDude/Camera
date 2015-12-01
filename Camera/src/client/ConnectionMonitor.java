@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class ConnectionMonitor {
 	private Socket server;
-	
+
 	public synchronized boolean connect(String host, int port) {
 		try {
 			server = new Socket(host, port);
@@ -15,7 +15,8 @@ public class ConnectionMonitor {
 			notifyAll();
 			return true;
 		} catch (Exception e) {
-			System.out.println("Unable to connect to " + host + " at port " + port); // TODO print
+			System.out.println("Unable to connect to " + host + " at port " + port); // TODO
+																						// print
 			return false;
 		}
 	}

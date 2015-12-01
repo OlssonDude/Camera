@@ -34,6 +34,16 @@ public class Monitor {
 		}
 	}
 
+	public synchronized void waitForConnect() {
+		while (!isConnected()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public synchronized boolean isConnected() {
 		return client != null;
 	}
@@ -58,13 +68,7 @@ public class Monitor {
 	}
 
 	public synchronized OutputStream getOutputStream() {
-		while (!isConnected()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		waitForConnect();
 		try {
 			return client.getOutputStream();
 		} catch (IOException e) {
@@ -75,13 +79,7 @@ public class Monitor {
 	}
 
 	public synchronized InputStream getInputStream() {
-		while (!isConnected()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		waitForConnect();
 		try {
 			return client.getInputStream();
 		} catch (IOException e) {
@@ -107,7 +105,6 @@ public class Monitor {
 		long toWait = imageGetTime - System.currentTimeMillis();
 		while (isIdleWait(toWait)) { // !forceMovie && (((forceIdle || !movie)
 										// && toWait > 0))
-			System.out.println("Waiting");
 			try {
 				wait(toWait);
 			} catch (InterruptedException e) {

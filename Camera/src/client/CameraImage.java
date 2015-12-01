@@ -5,6 +5,7 @@ public class CameraImage implements Comparable<CameraImage> {
 	private byte[] jpeg;
 	private long timestamp;
 	private long displayTime;
+	private boolean synchMode;
 
 	public CameraImage(int cameraID, long timestamp, byte[] jpeg) {
 		super();
@@ -37,4 +38,13 @@ public class CameraImage implements Comparable<CameraImage> {
 	public long getDisplayTime() {
 		return displayTime;
 	}
+
+	public boolean isSynchMode() {
+		return synchMode;
+	}
+
+	public void setSynchMode(boolean synchMode) {
+		this.synchMode = synchMode;
+	}
+
 }

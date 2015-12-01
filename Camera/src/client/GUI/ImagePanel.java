@@ -75,7 +75,7 @@ public class ImagePanel extends JPanel {
 		getToolkit().prepareImage(image, -1, -1, null);
 		icon.setImage(image);
 		icon.paintIcon(camera, camera.getGraphics(), 0, 0);
-		delay.setText("Delay: " + (System.currentTimeMillis() - data.getTimestamp()) + "ms");
+		delay.setText("Delay: " + (System.currentTimeMillis() - data.getTimestamp()) + " ms");
 	}
 
 	public void setMovieMode(boolean trigger) {
@@ -121,7 +121,6 @@ public class ImagePanel extends JPanel {
 		public Insets getBorderInsets(Component c) {
 			return insets;
 		}
-
 	}
 
 	private class IdleListener extends MouseAdapter {

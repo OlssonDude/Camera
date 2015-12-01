@@ -2,14 +2,10 @@ package client;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.swing.SwingUtilities;
-
 import client.GUI.ImagePanel;
 
 public class InputHandler extends Thread {
-	// public static final byte MOTION_MESSAGE = 0;
-	// public static final byte IMAGE_MESSAGE = 1;
 	private int cameraID;
 	private InputStream in;
 	private ImageBuffer imgBuffer;

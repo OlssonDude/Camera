@@ -78,6 +78,7 @@ public class ImageBuffer {
 			img.setDisplayTime(img.getTimestamp() + averageDelay);
 		}
 		prevReceiveTime = currentReceiveTime;
+		img.setSynchMode(synchMode);
 	}
 
 	public synchronized void setForced(boolean synch, boolean asynch) {

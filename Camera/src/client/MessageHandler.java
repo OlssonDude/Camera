@@ -15,25 +15,27 @@ public class MessageHandler extends Thread {
 
 	@Override
 	public void run() {
-		out = server.getOutputStream();
-		buffer.clear();
+		waitForConnection();
 		while (true) {
 			if (server.isConnected()) {
 				try {
 					byte msg = buffer.getMessage();
 					if (msg == -1) {
-						out = server.getOutputStream();
-						buffer.clear();
+						waitForConnection();
 					} else {
 						out.write(msg);
 					}
 				} catch (IOException e) {
-					System.out.println("MessageHandler Disconnected"); // TODO print
+					System.out.println("MessageHandler Disconnected"); // TODO
 				}
 			} else {
-				out = server.getOutputStream();
-				buffer.clear();
+				waitForConnection();
 			}
 		}
+	}
+
+	private void waitForConnection() {
+		out = server.getOutputStream();
+		buffer.clear();
 	}
 }

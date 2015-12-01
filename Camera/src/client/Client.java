@@ -8,8 +8,8 @@ import client.GUI.ImagePanel;
 import client.GUI.GUI;
 
 public class Client {
-	private static int LEFT = 0;
-	private static int RIGHT = 1;
+	public static final int LEFT_CAMERA = 0;
+	public static final int RIGHT_CAMERA = 1;
 	private ImageBuffer imgBuffer;
 	private MessageBuffer leftMsgBuffer;
 	private MessageBuffer rightMsgBuffer;
@@ -38,14 +38,13 @@ public class Client {
 				rightConnectionHandling = new ConnectionHandling(rightConnectionMonitor, cameraRight);
 				gui = new GUI(cameraLeft, cameraRight, leftConnectionHandling, rightConnectionHandling);
 				new DebugFrame(imgBuffer, cameraLeft, cameraRight, leftMsgBuffer, rightMsgBuffer);
-
 			}
 		});
 
-		new ImageUpdater(cameraLeft, cameraRight, imgBuffer).start();
-		cameraSetup(LEFT, leftMsgBuffer, rightMsgBuffer, cameraLeft, cameraRight, leftConnectionMonitor,
+		new ImageUpdater(cameraLeft, cameraRight, gui, imgBuffer).start();
+		cameraSetup(LEFT_CAMERA, leftMsgBuffer, rightMsgBuffer, cameraLeft, cameraRight, leftConnectionMonitor,
 				rightConnectionMonitor);
-		cameraSetup(RIGHT, rightMsgBuffer, leftMsgBuffer, cameraRight, cameraLeft, rightConnectionMonitor,
+		cameraSetup(RIGHT_CAMERA, rightMsgBuffer, leftMsgBuffer, cameraRight, cameraLeft, rightConnectionMonitor,
 				leftConnectionMonitor);
 	}
 

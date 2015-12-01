@@ -46,7 +46,7 @@ public class InputHandler extends Thread {
 						System.out.println("Force None Recieved");
 						break;
 					case -1:
-							monitor.disconnect();
+						monitor.disconnect();
 						break;
 					}
 
