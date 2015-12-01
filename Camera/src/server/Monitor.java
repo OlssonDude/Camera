@@ -15,6 +15,10 @@ public class Monitor {
 	private boolean forceIdle;
 	private long imageGetTime;
 
+	public Monitor() {
+
+	}
+
 	public synchronized void setSocket(Socket client) {
 		this.client = client;
 		notifyAll();
@@ -103,6 +107,7 @@ public class Monitor {
 		long toWait = imageGetTime - System.currentTimeMillis();
 		while (isIdleWait(toWait)) { // !forceMovie && (((forceIdle || !movie)
 										// && toWait > 0))
+			System.out.println("Waiting");
 			try {
 				wait(toWait);
 			} catch (InterruptedException e) {
@@ -124,11 +129,13 @@ public class Monitor {
 	}
 
 	public synchronized void setMovieMode(boolean movie) {
-		if (!movie) {
-			motionMessageSent = false;
+		if (isConnected()) {
+			if (!movie) {
+				motionMessageSent = false;
+			}
+			this.movie = movie;
+			notifyAll();
 		}
-		this.movie = movie;
-		notifyAll();
 	}
 
 	public synchronized boolean MotionMessageSent() {
