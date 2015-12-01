@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import client.CameraImage;
+import client.CameraProtocolConstants;
 import client.MessageBuffer;
 import client.ServerMessage;
 import se.lth.cs.eda040.fakecamera.AxisM3006V;
@@ -129,7 +130,7 @@ public class ImagePanel extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (movie) {
-				msgBuffer.addMessage(new ServerMessage(ServerMessage.IDLE_MESSAGE));
+				msgBuffer.addMessage(new ServerMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE));
 				setIdleMode();
 			}
 		}

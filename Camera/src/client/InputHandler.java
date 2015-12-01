@@ -8,8 +8,8 @@ import javax.swing.SwingUtilities;
 import client.GUI.ImagePanel;
 
 public class InputHandler extends Thread {
-	public static final byte MOTION_MESSAGE = 0;
-	public static final byte IMAGE_MESSAGE = 1;
+//	public static final byte MOTION_MESSAGE = 0;
+//	public static final byte IMAGE_MESSAGE = 1;
 	private int cameraID;
 	private InputStream in;
 	private ImageBuffer imgBuffer;
@@ -37,9 +37,9 @@ public class InputHandler extends Thread {
 			if (server.isConnected()) {
 				try {
 					byte msgType = readType();
-					if (msgType == IMAGE_MESSAGE) {
+					if (msgType == CameraProtocolConstants.SERVER_IMAGE_MESSAGE) {
 						handleImage();
-					} else if (msgType == MOTION_MESSAGE) {
+					} else if (msgType == CameraProtocolConstants.SERVER_MOTION_MESSAGE) {
 						handleMotion();
 					}
 				} catch (IOException e) {
@@ -62,7 +62,7 @@ public class InputHandler extends Thread {
 	}
 
 	private void handleMotion() {
-		otherMsgBuffer.addMessage(new ServerMessage(ServerMessage.MOVIE_MESSAGE));
+		otherMsgBuffer.addMessage(new ServerMessage(CameraProtocolConstants.CLIENT_MOVIE_MESSAGE));
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

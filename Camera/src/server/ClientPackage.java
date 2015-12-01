@@ -1,19 +1,18 @@
 package server;
 
+import client.CameraProtocolConstants;
+
 public class ClientPackage {
 	private byte[] packageData;
 	private boolean motionDetected;
-	public static final int HEADER_LENGTH = 13;
-	public static final byte MOTION_MESSAGE = 0;
-	public static final byte IMAGE_MESSAGE = 1;
 
 	public ClientPackage(boolean motionDetected, byte[] timestamp, int length, byte[] jpeg) {
 		this.motionDetected = motionDetected;
-		packageData = new byte[HEADER_LENGTH + length];
-		packageData[0] = IMAGE_MESSAGE;
+		packageData = new byte[CameraProtocolConstants.SERVER_IMAGE_HEADER_LENGTH + length];
+		packageData[0] = CameraProtocolConstants.SERVER_IMAGE_MESSAGE;
 		System.arraycopy(timestamp, 0, packageData, 1, 8);
 		addLength(length);
-		System.arraycopy(jpeg, 0, packageData, HEADER_LENGTH, length);
+		System.arraycopy(jpeg, 0, packageData, CameraProtocolConstants.SERVER_IMAGE_HEADER_LENGTH, length);
 	}
 
 	private void addLength(int length) {

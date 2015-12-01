@@ -13,6 +13,7 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import client.CameraProtocolConstants;
 import client.ImageBuffer;
 import client.MessageBuffer;
 import client.ServerMessage;
@@ -88,23 +89,23 @@ public class DebugFrame extends JFrame {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				byte msg;
 				if (e.getSource() == modeMovie) {
-					msg = ServerMessage.FORCE_MOVIE;
+					msg = CameraProtocolConstants.CLIENT_FORCE_MOVIE;
 					cameraLeft.setMovieMode(false);
 					cameraRight.setMovieMode(false);
 				} else if (e.getSource() == modeIdle) {
-					msg = ServerMessage.FORCE_IDLE;
+					msg = CameraProtocolConstants.CLIENT_FORCE_IDLE;
 					cameraLeft.setIdleMode();
 					cameraRight.setIdleMode();
 				} else {
-					msg = ServerMessage.FORCE_NONE;
+					msg = CameraProtocolConstants.CLIENT_FORCE_NONE;
 					// FIXME - display correct mode on return to auto
 				}
 				leftMsgBuffer.addMessage(new ServerMessage(msg));
 				rightMsgBuffer.addMessage(new ServerMessage(msg));
 				///// UGLY SOLUTION TO PROBLEM ABOVE //////////
-				if (msg == ServerMessage.FORCE_NONE) {
-					leftMsgBuffer.addMessage(new ServerMessage(ServerMessage.IDLE_MESSAGE));
-					rightMsgBuffer.addMessage(new ServerMessage(ServerMessage.IDLE_MESSAGE));
+				if (msg == CameraProtocolConstants.CLIENT_FORCE_NONE) {
+					leftMsgBuffer.addMessage(new ServerMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE));
+					rightMsgBuffer.addMessage(new ServerMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE));
 					cameraLeft.setIdleMode();
 					cameraRight.setIdleMode();
 				}
