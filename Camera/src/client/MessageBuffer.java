@@ -4,19 +4,19 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class MessageBuffer {
-	private Queue<ServerMessage> buffer;
+	private Queue<Byte> buffer;
 	private boolean disconnected;
 
 	public MessageBuffer() {
-		buffer = new ArrayDeque<ServerMessage>();
+		buffer = new ArrayDeque<Byte>();
 	}
 
-	public synchronized void addMessage(ServerMessage message) {
+	public synchronized void addMessage(byte message) {
 		buffer.offer(message);
 		notifyAll();
 	}
 
-	public synchronized ServerMessage getMessage() {
+	public synchronized byte getMessage() {
 		while (buffer.isEmpty() && !disconnected) {
 			try {
 				wait();
@@ -25,7 +25,7 @@ public class MessageBuffer {
 		}
 		if (disconnected) {
 			disconnected = false;
-			return null;
+			return -1;
 		}
 		return buffer.poll();
 	}

@@ -16,7 +16,6 @@ import javax.swing.border.TitledBorder;
 import client.CameraProtocolConstants;
 import client.ImageBuffer;
 import client.MessageBuffer;
-import client.ServerMessage;
 
 public class DebugFrame extends JFrame {
 	private MessageBuffer leftMsgBuffer;
@@ -100,12 +99,12 @@ public class DebugFrame extends JFrame {
 					msg = CameraProtocolConstants.CLIENT_FORCE_NONE;
 					// FIXME - display correct mode on return to auto
 				}
-				leftMsgBuffer.addMessage(new ServerMessage(msg));
-				rightMsgBuffer.addMessage(new ServerMessage(msg));
+				leftMsgBuffer.addMessage(msg);
+				rightMsgBuffer.addMessage(msg);
 				///// UGLY SOLUTION TO PROBLEM ABOVE //////////
 				if (msg == CameraProtocolConstants.CLIENT_FORCE_NONE) {
-					leftMsgBuffer.addMessage(new ServerMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE));
-					rightMsgBuffer.addMessage(new ServerMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE));
+					leftMsgBuffer.addMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE);
+					rightMsgBuffer.addMessage(CameraProtocolConstants.CLIENT_IDLE_MESSAGE);
 					cameraLeft.setIdleMode();
 					cameraRight.setIdleMode();
 				}

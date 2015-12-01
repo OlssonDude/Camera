@@ -20,12 +20,12 @@ public class MessageHandler extends Thread {
 		while (true) {
 			if (server.isConnected()) {
 				try {
-					ServerMessage msg = buffer.getMessage();
-					if (msg == null) {
+					byte msg = buffer.getMessage();
+					if (msg == -1) {
 						out = server.getOutputStream();
 						buffer.clear();
 					} else {
-						out.write(msg.toByte());
+						out.write(msg);
 					}
 				} catch (IOException e) {
 					System.out.println("MessageHandler Disconnected"); // TODO print
