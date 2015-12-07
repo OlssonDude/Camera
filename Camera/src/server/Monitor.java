@@ -8,7 +8,7 @@ import java.net.Socket;
 public class Monitor {
 	public static final int IDLE_WAIT_TIME = 5000;
 	private Socket client;
-	private ClientPackage image;
+	private ImagePackage image;
 	private boolean movie;
 	private boolean motionMessageSent;
 	private boolean forceMovie;
@@ -65,7 +65,7 @@ public class Monitor {
 		}
 	}
 
-	public synchronized void addImage(ClientPackage clientPackage) {
+	public synchronized void addImage(ImagePackage clientPackage) {
 		image = clientPackage;
 		notifyAll();
 	}
@@ -104,7 +104,7 @@ public class Monitor {
 		return false;
 	}
 
-	public synchronized ClientPackage getImageTestWait() {
+	public synchronized ImagePackage getImageTestWait() {
 		long toWait = imageGetTime - System.currentTimeMillis();
 		while (isIdleWait(toWait)) { // !forceMovie && (((forceIdle || !movie)
 										// && toWait > 0))
@@ -118,7 +118,7 @@ public class Monitor {
 		return getImage();
 	}
 
-	public synchronized ClientPackage getImage() {
+	public synchronized ImagePackage getImage() {
 		while (image == null) {
 			try {
 				wait();
@@ -126,7 +126,7 @@ public class Monitor {
 				e.printStackTrace();
 			}
 		}
-		ClientPackage toReturn = image;
+		ImagePackage toReturn = image;
 		image = null;
 		imageGetTime = System.currentTimeMillis() + IDLE_WAIT_TIME;
 		return toReturn;

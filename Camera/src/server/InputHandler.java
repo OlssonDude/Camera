@@ -21,10 +21,6 @@ public class InputHandler extends Thread {
 				try {
 					byte message = (byte) in.read();
 					switch (message) {
-					case CameraProtocolConstants.CLIENT_DISCONNECT_MESSAGE:
-						monitor.disconnect();
-						System.out.println("Disconenct Recieved");
-						break;
 					case CameraProtocolConstants.CLIENT_IDLE_MESSAGE:
 						monitor.setMovieMode(false);
 						System.out.println("Idle Recieved");

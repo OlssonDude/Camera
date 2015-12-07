@@ -79,19 +79,6 @@ public class Server extends Thread {
 		}
 	}
 
-	private boolean isHTTP(Socket client) {
-		try {
-			String request = getLine(client.getInputStream());
-			if (request.length() >= 4 && request.substring(0, 4).equals("GET ")) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (IOException e) {
-		}
-		return true;
-	}
-
 	private static String getLine(InputStream s) throws IOException {
 		boolean done = false;
 		String result = "";

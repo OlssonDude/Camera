@@ -2,11 +2,11 @@ package server;
 
 import client.CameraProtocolConstants;
 
-public class ClientPackage {
+public class ImagePackage {
 	private byte[] packageData;
 	private boolean motionDetected;
 
-	public ClientPackage(boolean motionDetected, byte[] timestamp, int length, byte[] jpeg) {
+	public ImagePackage(boolean motionDetected, byte[] timestamp, int length, byte[] jpeg) {
 		this.motionDetected = motionDetected;
 		packageData = new byte[CameraProtocolConstants.SERVER_IMAGE_HEADER_LENGTH + length];
 		packageData[0] = CameraProtocolConstants.SERVER_IMAGE_MESSAGE;

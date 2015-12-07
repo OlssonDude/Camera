@@ -21,7 +21,7 @@ public class CameraThread extends Thread {
 			int length = camera.getJPEG(jpeg, 0);
 			camera.getTime(timestamp, 0);
 			boolean motionDetected = camera.motionDetected();
-			monitor.addImage(new ClientPackage(motionDetected, timestamp, length, jpeg));
+			monitor.addImage(new ImagePackage(motionDetected, timestamp, length, jpeg));
 
 			if (motionDetected) {
 				monitor.setMovieMode(true);
