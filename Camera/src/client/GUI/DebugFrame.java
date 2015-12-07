@@ -29,15 +29,17 @@ public class DebugFrame extends JFrame {
 	private JRadioButton synchSynch;
 	private JRadioButton synchAsync;
 	private JRadioButton synchAuto;
+	private GUI gui;
 
 	public DebugFrame(ImageBuffer imgBuffer, ImagePanel cameraLeft, ImagePanel cameraRight, MessageBuffer leftMsgBuffer,
-			MessageBuffer rightMsgBuffer) {
+			MessageBuffer rightMsgBuffer, GUI gui) {
 		super("Debug Options");
 		this.leftMsgBuffer = leftMsgBuffer;
 		this.rightMsgBuffer = rightMsgBuffer;
 		this.imgBuffer = imgBuffer;
 		this.cameraLeft = cameraLeft;
 		this.cameraRight = cameraRight;
+		this.gui = gui;
 
 		// Padding Panel
 		JPanel paddingPanel = new JPanel(new GridLayout(2, 1, 5, 5));
@@ -119,11 +121,14 @@ public class DebugFrame extends JFrame {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				if (e.getSource() == synchSynch) {
-					imgBuffer.setForced(true, false);
+					imgBuffer.forceSynch();
+					gui.setSynchMode(true);
 				} else if (e.getSource() == synchAsync) {
-					imgBuffer.setForced(false, true);
+					imgBuffer.forceAsynch();
+					gui.setSynchMode(false);
 				} else {
-					imgBuffer.setForced(false, false);
+					imgBuffer.forceNone();
+					gui.setSynchMode(imgBuffer.isSynch());
 				}
 			}
 		}

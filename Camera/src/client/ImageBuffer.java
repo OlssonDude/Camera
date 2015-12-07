@@ -81,9 +81,23 @@ public class ImageBuffer {
 		img.setSynchMode(synchMode);
 	}
 
-	public synchronized void setForced(boolean synch, boolean asynch) {
-		forcedSynchMode = synch;
-		forcedAsynchMode = asynch;
+	public synchronized void forceSynch() {
+		forcedSynchMode = true;
+		forcedAsynchMode = false;
+	}
+	
+	public synchronized void forceAsynch() {
+		forcedSynchMode = false;
+		forcedAsynchMode = true;
+	}
+	
+	public synchronized void forceNone() {
+		forcedSynchMode = false;
+		forcedAsynchMode = false;
+	}
+	
+	public boolean isSynch() {
+		return synchMode;
 	}
 
 }

@@ -37,7 +37,7 @@ public class Client {
 				leftConnectionHandling = new ConnectionHandling(leftConnectionMonitor, cameraLeft);
 				rightConnectionHandling = new ConnectionHandling(rightConnectionMonitor, cameraRight);
 				gui = new GUI(cameraLeft, cameraRight, leftConnectionHandling, rightConnectionHandling);
-				new DebugFrame(imgBuffer, cameraLeft, cameraRight, leftMsgBuffer, rightMsgBuffer);
+				new DebugFrame(imgBuffer, cameraLeft, cameraRight, leftMsgBuffer, rightMsgBuffer, gui);
 			}
 		});
 

@@ -6,17 +6,18 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class ConnectionMonitor {
+	private static final byte[] CLIENT_INIT = new byte[] { 'C', 'L', 'I', 'E', 'N', 'T', 13, 10 };
 	private Socket server;
 
 	public synchronized boolean connect(String host, int port) {
 		try {
 			server = new Socket(host, port);
 			server.setTcpNoDelay(true);
+			OutputStream out = server.getOutputStream();
+			out.write(CLIENT_INIT);
 			notifyAll();
 			return true;
 		} catch (Exception e) {
-			System.out.println("Unable to connect to " + host + " at port " + port); // TODO
-																						// print
 			return false;
 		}
 	}
