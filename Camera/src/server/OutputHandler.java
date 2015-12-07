@@ -18,7 +18,7 @@ public class OutputHandler extends Thread {
 		out = monitor.getOutputStream();
 		while (true) {
 			if (monitor.isConnected()) {
-				ClientPackage toSend = monitor.getImage();
+				ClientPackage toSend = monitor.getImageTestWait();
 				try {
 					if (toSend.motionDetected() && !monitor.MotionMessageSent()) {
 						out.write(CameraProtocolConstants.SERVER_MOTION_MESSAGE);

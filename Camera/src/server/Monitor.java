@@ -24,15 +24,15 @@ public class Monitor {
 		notifyAll();
 	}
 
-	public synchronized void waitForDisconnect() {
-		while (isConnected()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	// public synchronized void waitForDisconnect() {
+	// while (isConnected()) {
+	// try {
+	// wait();
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
 
 	public synchronized void waitForConnect() {
 		while (!isConnected()) {
@@ -58,6 +58,9 @@ public class Monitor {
 			client = null;
 			movie = false;
 			motionMessageSent = false;
+			imageGetTime = 0;
+			forceMovie = false;
+			forceIdle = false;
 			notifyAll();
 		}
 	}
@@ -101,7 +104,7 @@ public class Monitor {
 		return false;
 	}
 
-	public synchronized ClientPackage getImage() {
+	public synchronized ClientPackage getImageTestWait() {
 		long toWait = imageGetTime - System.currentTimeMillis();
 		while (isIdleWait(toWait)) { // !forceMovie && (((forceIdle || !movie)
 										// && toWait > 0))
@@ -112,6 +115,10 @@ public class Monitor {
 			}
 			toWait = imageGetTime - System.currentTimeMillis();
 		}
+		return getImage();
+	}
+
+	public synchronized ClientPackage getImage() {
 		while (image == null) {
 			try {
 				wait();
